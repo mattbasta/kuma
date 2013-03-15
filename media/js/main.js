@@ -5,12 +5,13 @@ k = {};
     k.LAZY_DELAY = 500;  // delay to lazy loading scripts, in ms
     k.MEDIA_URL = '/media/';
 
-    $(document).ready(function() {
+    // This event should be raised every time the content of the page changes
+    $(document.body).on('loaded', function() {
         /* Focus form field when clicking on error message. */
         $('#content ul.errorlist a').click(function () {
-                $($(this).attr('href')).focus();
-                return false;
-            });
+            $($(this).attr('href')).focus();
+            return false;
+        });
 
         if ($('body').data('readonly') == 'true') {
             $forms = $('form[method=post]');
@@ -21,6 +22,10 @@ k = {};
         initAutoSubmitSelects();
         initSearchAutoFilters();
         disableFormsOnSubmit();
+    });
+
+    $(document).ready(function() {
+        $(document.body).trigger('loaded');
         lazyLoadScripts();
     });
 
